@@ -8,7 +8,7 @@ if(isset($_POST['submit'])){ // check neu submit
         header('Location: index.php'); // nếu true thì đưa về admin index
         exit;
     }else{
-        $message = '<p class="error">Wrong username or password</p>';
+        echo '<p class="error">Wrong username or password</p>';
     }
 }
 ?>

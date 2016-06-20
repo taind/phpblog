@@ -32,5 +32,10 @@ class User
             return true;
         }
     }
+    public function isAdmin($username){
+        if($username == 'admin'){
+            return true;
+        }
+    }
 }
 ?>

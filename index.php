@@ -1,17 +1,30 @@
+<?php require('includes/config.php'); ?>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Blog</title>
+    <link rel="stylesheet" href="style/normalize.css">
+    <link rel="stylesheet" href="style/main.css">
+</head>
+<body>
+<h1>Blog</h1>
+<hr>
 <?php
-require('includes/config.php');
 try {
-    $stmt = $db->query("Select postID, postTitle, postDate, postDesc from blog_posts order by postID DESC");
-    while ($row = $stmt->fetch()){
+
+    $stmt = $db->query('SELECT postID, postTitle, postDesc, postDate FROM blog_posts ORDER BY postID DESC');
+    while($row = $stmt->fetch()){
+
         echo '<div>';
-        echo '<h1><a href="viewpost.php?id='.$row['postID'].'">'.$row['postTitle'].'</a></h1>'; // truyen bien postID vao .php?id= <- get method
-        echo '<p>Post Desc : '.$row['postDesc'].'</p>';
-        echo '<p>Post on : '.$row['postDate'].'</p>';
-        echo '<a href="viewpost.php?id='.$row['postID'].'">Read more</a>';
+        echo '<h1><a href="viewpost.php?id='.$row['postID'].'">'.$row['postTitle'].'</a></h1>';
+        echo '<p>Posted on '.date('jS M Y H:i:s', strtotime($row['postDate'])).'</p>';
+        echo '<p>'.$row['postDesc'].'</p>';
+        echo '<p><a href="viewpost.php?id='.$row['postID'].'">Read More</a></p>';
         echo '</div>';
+
     }
 
-}catch(PDOException $e){
+} catch(PDOException $e) {
     echo $e->getMessage();
 }
 ?>

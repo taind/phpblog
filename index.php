@@ -28,3 +28,5 @@ try {
     echo $e->getMessage();
 }
 ?>
+</body>
+</html>

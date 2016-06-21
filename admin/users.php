@@ -63,8 +63,8 @@ if(isset($_GET['deluser']) && $_GET['deluser']!='1'){
         $e->getMessage();
     }
     ?>
-        </table>
-    <a href="add-post.php">Add new user</a>
+    </table>
+    <a href="add-user.php">Add new user</a>
 
 
 </body>

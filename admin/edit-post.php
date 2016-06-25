@@ -45,8 +45,9 @@ if(!$user->is_logged_in()){
         }
         if(!isset($error)){
             try{
-                $stmt = $db->prepare('UPDATE blog_posts SET postTitle=?, postDesc=?, postCont=? where postID=?');
-                $stmt->execute(array($postTitle,$postDesc,$postCont,$_GET['id']));
+                $stmt = $db->prepare('UPDATE blog_posts SET postTitle=?, postSlug=?, postDesc=?, postCont=? where postID=?');
+                $postSlug = slug($postTitle);
+                $stmt->execute(array($postTitle, $postSlug, $postDesc, $postCont, $_GET['id']));
                 header('Location: index.php?action=updated');
                 exit;
             }catch(PDOException $e){

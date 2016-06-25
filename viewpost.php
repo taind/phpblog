@@ -1,6 +1,6 @@
 <?php
 require ('includes/config.php');
-$stmt = $db->prepare('Select postID,postDate,postCont,postTitle from blog_posts where postID= ?');
+$stmt = $db->prepare('Select postID,postTitle,postDate,postCont from blog_posts where postSlug= ?');
 $stmt->execute(array($_GET['id'])); // get id bên index truyen qua va quang vao statement o tren
 $row=$stmt->fetch();
 if($row['postID'] == ''){
@@ -23,7 +23,14 @@ if($row['postID'] == ''){
     <link rel="stylesheet" href="style/main.css">
 </head>
 <body>
-
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 <div id="wrapper">
 
     <h1>Blog</h1>
@@ -40,29 +47,7 @@ if($row['postID'] == ''){
     ?>
 
 </div>
-<div id="disqus_thread"></div>
-<script>
-    /**
-     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-     */
-    /*
-     var disqus_config = function () {
-     this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-     this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-     };
-     */
-    (function() {  // DON'T EDIT BELOW THIS LINE
-        var d = document, s = d.createElement('script');
-
-        s.src = '//13520730blog.disqus.com/embed.js';
-
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-<script id="dsq-count-scr" src="//13520730blog.disqus.com/count.js" async></script>
+<div class="fb-comments" data-href="http://20namsau.com/phpblog/" data-numposts="5"></div>
 </body>
 </html>
 

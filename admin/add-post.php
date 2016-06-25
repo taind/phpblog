@@ -26,7 +26,7 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
 
 <div id="wrapper">
     <?php include('menu.php');?>
-    <p><a href="./">Blog Admin Index</a></p>
+    <p><a href="/">Blog Admin Index</a></p>
     <h2>Add Post</h2>
 </div>
 <?php
@@ -44,8 +44,9 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
         }
         if(!isset($error)){
             try {
-                $stmt = $db->prepare('INSERT INTO blog_posts (postTitle,postDesc,postCont,postDate) VALUES (?,?,?,?)');
-                $stmt->execute(array($postTitle,$postDesc,$postCont, date('Y-m-d H:i:s')));
+                $stmt = $db->prepare('INSERT INTO blog_posts (postTitle,postSlug,postDesc,postCont,postDate) VALUES (?,?,?,?,?)');
+                $postSlug = slug($postTitle);
+                $stmt->execute(array($postTitle,$postSlug,$postDesc,$postCont, date('Y-m-d H:i:s')));
                 header('Location: index.php?action=added');
                 exit;
             }catch(PDOException $e){

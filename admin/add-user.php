@@ -35,7 +35,7 @@ if(isset($_POST['submit'])){
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Admin - Edit User</title>
+    <title>Admin - Add User</title>
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/main.css">
 </head>

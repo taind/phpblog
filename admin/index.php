@@ -14,7 +14,7 @@ if(isset($_GET['delpost'])){
 <!doctype html>
 <html>
 <head>
-    <title>Admin</title>
+    <title>Admin CP</title>
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/main.css">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

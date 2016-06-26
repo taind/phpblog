@@ -28,15 +28,19 @@ if(isset($_POST['submit'])){
     if($email == ''){
         $error[] = 'Please enter EMAIL';
     }
-    if($password == ''){
-        $error[] = 'Please enter PASSWORD';
+    if($password != ''){
+        if($password != $repassword){
+            $error[] = 'PASSWORD is not same';
+        }
     }
-    if($currentpass != $row['password']){
+    if( $currentpass == ''){
         $error[] = 'User current password wrong';
+    } else {
+        if($currentpass != $row['password']){
+            $error[] = 'User current password wrong';
+        }
     }
-    if($password != $repassword){
-        $error[] = 'PASSWORD is not same';
-    }
+
     if(!isset($error)){
         $stmt = $db->prepare('UPDATE blog_members SET username=?,email=?,password=? where memberID=?');
         $stmt->execute(array($username,$email,$password,$_GET['id']));

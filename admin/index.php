@@ -5,7 +5,9 @@ if(!$user->is_logged_in()){ // nếu chưa thì redirect qua trang login.php de 
 }
 //xử lý action edit or delete
 if(isset($_GET['delpost'])){
-    $stmt = $db->prepare('DELETE FROM blog_posts where postID= ? ');
+    $stmt = $db->prepare('DELETE FROM blog_posts where postID= ? '); // delete post
+    $stmt->execute(array($_GET['delpost']));
+    $stmt = $db->prepare('DELETE FROM blog_post_cats where postID=?'); // delete post cat trong table post_cats
     $stmt->execute(array($_GET['delpost']));
     header('Location: index.php?action=deleted');
     exit;

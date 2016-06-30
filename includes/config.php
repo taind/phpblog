@@ -3,15 +3,14 @@
 include('function.php');
 ob_start(); // khởi tạo bộ đệm cho kq của server
 session_start();
-define('DBHOST', '188.166.230.219');
-define('DBUSER', 'phpblog');
-define('DBPASS', '123');
+define('DBHOST', 'localhost');
+define('DBUSER', 'root');
+define('DBPASS', '');
 define('DBNAME', 'phpblog');
 $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
 try{
     $db = new PDO("mysql:host=".DBHOST.";port=3306;dbname=".DBNAME, DBUSER, DBPASS, $options);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "connected";
 }catch(PDOException $e){
     echo $e->getMessage();
 }

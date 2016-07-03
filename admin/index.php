@@ -30,46 +30,55 @@ if(isset($_GET['delpost'])){
     </script>
 </head>
 <body>
-<div id="wrapper">
-
 <?php include('menu.php');?>
-<?php
-    if(isset($_GET['action'])){
-        echo '<h3>Post '.$_GET['action'].'.</h3>';
-    }
-?>
-    <a href="add-post.php">Add new post</a>
+<section class="container">
+    <div clas="row col-sm-8">
+        <?php
+            if(isset($_GET['action'])){
+                echo '<h3>Post '.$_GET['action'].'.</h3>';
+            }
+        ?>
+        <a href="add-post.php">Add new post</a>
 
-    <table border="1">
-    <tr>
-        <th>Title</th>
-        <th>Post on</th>
-        <th>Action</th>
-    </tr>
-    <?php
-    try{
-        $pages = new Paginator('5', 'p');
-        $stmt = $db->query('select postID from blog_posts ORDER BY postID DESC');
-        $pages->set_total($stmt->rowCount());
-        $stmt = $db->query('select postID, postTitle,postDate from blog_posts ORDER BY postID DESC '.$pages->get_limit());
-        while($row=$stmt->fetch()){
-            echo    '<tr>';
-            echo    '<td>'.$row['postTitle'].'</td>';
-            echo    '<td>'.$row['postDate'].'</td>';
-    ?>
-                    <td>
-                        <a href="edit-post.php?id=<?php echo $row['postID']; ?>">Edit | </a>
-                        <a href="javascript:delpost('<?php echo $row['postID']; ?>', '<?php echo $row['postTitle']; ?>')">Delete</a>
-                    </td>
-    <?php
-            echo '</tr>';
+        <table border="1">
+        <tr>
+            <th width="33%">Title</th>
+            <th width="33%">Post on</th>
+            <th width="33%">Action</th>
+        </tr>
+        <?php
+        try{
+            $pages = new Paginator('10', 'p');
+            $stmt = $db->query('select postID from blog_posts ORDER BY postID DESC');
+            $pages->set_total($stmt->rowCount());
+            $stmt = $db->query('select postID, postTitle,postDate from blog_posts ORDER BY postID DESC '.$pages->get_limit());
+            while($row=$stmt->fetch()){
+                echo    '<tr>';
+                if(strlen($row['postTitle']) > 70){
+                    $shortedTitle = substr($row['postTitle'],0,70);
+                    $shortedTitle .= "...";
+                } else {
+                    $shortedTitle = $row['postTitle'];
+                }
+                echo    '<td>'.$shortedTitle.'</td>';
+                echo    '<td>'.date('jS M Y H:i A', strtotime($row['postDate'])).'</td>';
+        ?>
+                        <td>
+                            <a href="edit-post.php?id=<?php echo $row['postID']; ?>">Edit | </a>
+                            <a href="javascript:delpost('<?php echo $row['postID']; ?>', '<?php echo $row['postTitle']; ?>')">Delete</a>
+                        </td>
+        <?php
+                echo '</tr>';
+            }
+            echo "</table>";
+        }catch(PDOException $e){
+            $e->getMessage();
         }
-        echo "</table>";
-    }catch(PDOException $e){
-        $e->getMessage();
-    }
-    echo $pages->page_links();
- ?>
-</div>
+        echo "<div class='span7 center'>";
+        echo "<p>".$pages->page_links()."</p>";
+        echo "</div>";
+        ?>
+     </div>
+</section>
 </body>
 </html>

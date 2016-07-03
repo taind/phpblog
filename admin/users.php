@@ -31,9 +31,9 @@ if(isset($_GET['deluser']) && $_GET['deluser']!='1'){
     </script>
 </head>
 <body>
-<div id="wrapper">
-
-    <?php include "menu.php"; ?>
+<?php include('menu.php');?>
+<section class="container">
+    <div clas="row col-sm-8">
     <?php 
         if(isset($_GET['action'])){
             echo '<h3>User '.$_GET['action'].'</h3>';
@@ -41,10 +41,10 @@ if(isset($_GET['deluser']) && $_GET['deluser']!='1'){
     ?>
     <table border="1">
         <tr>
-            <th>Member ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Action</th>
+            <th width="25%">Member ID</th>
+            <th width="25%">Username</th>
+            <th width="25%">Email</th>
+            <th width="25%">Action</th>
         </tr>
     <?php
     try{
@@ -68,7 +68,8 @@ if(isset($_GET['deluser']) && $_GET['deluser']!='1'){
     ?>
     </table>
     <a href="add-user.php">Add new user</a>
-</div>
+    </div>
+</section>
 
 </body>
 </html>

@@ -79,44 +79,44 @@ if(isset($_POST['editcat'])){ //edit category
                     "<input type='submit' name='editcat' value='Update cat'>" +
                     "</form>";
                 $("p").html(data);
+                $(".btnadd").hide();
             })
         });
     </script>
 </head>
 <body>
-<div id="wrapper">
-
-<?php include "menu.php"; ?>
-<?php
-if(isset($error)){
-    echo $error;
-}
-if(isset($_GET['action'])){
-    echo 'Category '.$_GET['action'];
-}
-?>
-<table border="1">
+<section class="container">
+    <div clas="row col-sm-8">
+        <?php include "menu.php"; ?>
+        <?php
+        if(isset($error)){
+            echo $error;
+        }
+        if(isset($_GET['action'])){
+            echo 'Category '.$_GET['action'];
+        }
+        ?>
+    <table border="1">
     <tr>
-        <th>Category</th>
-        <th>Action</th>
+        <th width="50%">Category</th>
+        <th width="50%">Action</th>
     </tr>
-
-
-<?php
-$stmt = $db->query('SELECT catID,catTitle from blog_cats order by catID DESC');
-while($row = $stmt->fetch()){
-    echo '<tr>';
-    echo '<td>'.$row['catTitle'].'</td>';
-?>
-<td><button class="btnedit" value="<?php echo $row['catTitle']; ?>" id="<?php echo $row['catID']; ?>">Edit</button> |
-    <button onclick="delcat('<?php echo $row['catID']; ?>', '<?php echo $row['catTitle']; ?>')">Delete</button></td>
-<?php
-    echo '</tr>';
-}
-?>
-</table>
-<button class="btnadd">Add category</button>
-<p class="inner"></p>
-</div>
+    <?php
+    $stmt = $db->query('SELECT catID,catTitle from blog_cats order by catID DESC');
+    while($row = $stmt->fetch()){
+        echo '<tr>';
+        echo '<td>'.$row['catTitle'].'</td>';
+    ?>
+    <td><button class="btnedit" value="<?php echo $row['catTitle']; ?>" id="<?php echo $row['catID']; ?>">Edit</button> |
+        <button onclick="delcat('<?php echo $row['catID']; ?>', '<?php echo $row['catTitle']; ?>')">Delete</button></td>
+    <?php
+        echo '</tr>';
+    }
+    ?>
+    </table>
+    <button class="btnadd">Add category</button>
+    <p class="inner"></p>
+    </div>
+</section>
 </body>
 </html>

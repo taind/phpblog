@@ -1,13 +1,10 @@
-// Contact Form Scripts
-
 $(function() {
 
     $("#contactForm input,#contactForm textarea").jqBootstrapValidation({
-        preventSubmit: true,
+        preventSubmit: true, //jq kiểm tra, ko cho submit
         submitError: function($form, event, errors) {
-            // additional error messages or events
-        },
-        submitSuccess: function($form, event) {
+        }, //hiển thị lỗi
+        submitSuccess: function($form, event) { // nếu thành công
             event.preventDefault(); // prevent default submit behaviour
             // get values from FORM
             var name = $("input#name").val();
@@ -18,6 +15,7 @@ $(function() {
             // Check for white space in name for Success/Fail message
             if (firstName.indexOf(' ') >= 0) {
                 firstName = name.split(' ').slice(0, -1).join(' ');
+                // lấy first name
             }
             $.ajax({
                 url: "././mail/contact_me.php",
@@ -30,7 +28,6 @@ $(function() {
                 },
                 cache: false,
                 success: function() {
-                    // Success message
                     $('#success').html("<div class='alert alert-success'>");
                     $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                         .append("</button>");
@@ -38,12 +35,14 @@ $(function() {
                         .append("<strong>Your message has been sent. </strong>");
                     $('#success > .alert-success')
                         .append('</div>');
+                    // Success message, nếu ajax xử lí thành công trả về nối chuỗi
 
                     //clear all fields
                     $('#contactForm').trigger("reset");
                 },
                 error: function() {
                     // Fail message
+                    // ajax xử lí ko xong
                     $('#success').html("<div class='alert alert-danger'>");
                     $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                         .append("</button>");
@@ -58,15 +57,10 @@ $(function() {
             return $(this).is(":visible");
         },
     });
-
-    $("a[data-toggle=\"tab\"]").click(function(e) {
-        e.preventDefault();
-        $(this).tab("show");
-    });
 });
 
 
-/*When clicking on Full hide fail/success boxes */
+//click vào sẽ mất cái thông báo lỗi
 $('#name').focus(function() {
     $('#success').html('');
 });

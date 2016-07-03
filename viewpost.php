@@ -13,7 +13,7 @@ if($row['postID'] == ''){
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Blog - <?php echo $row['postTitle'];?></title>
+    <title><?php echo $row['postTitle'];?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -35,6 +35,23 @@ if($row['postID'] == ''){
     <![endif]-->
 </head>
 <body>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '166170170465990',
+            xfbml      : true,
+            version    : 'v2.6'
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -97,17 +114,21 @@ if($row['postID'] == ''){
     <section class="container">
         <div class="row">
             <figure class="col-sm-8">
+                <div class="fb-like" data-href="http://20namsau.com/phpblog/<?php echo $_GET['id']; ?>" data-layout="button_count" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
                 <?php
                 echo '<div>';
                 echo '<p>'.$row['postCont'].'</p>';
                 echo '</div>';
                 ?>
+            <div class="fb-comments" data-href="http://20namsau.com/phpblog/<?php echo $_GET['id']; ?>" data-width="700" data-numposts="5"></div>
             </figure>
             <figure class="col-sm-4">
                 <?php require ("sidebar.php"); ?>
             </figure>
     </section>
+
 </article>
+
 <footer>
     <div class="container">
         <div class="row">

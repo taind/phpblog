@@ -25,11 +25,9 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
 </head>
 <body>
 
-<div id="wrapper">
-    <?php include('menu.php');?>
-    <p><a href="/">Blog Admin Index</a></p>
-    <h2>Add Post</h2>
-
+<?php include('menu.php');?>
+<section class="container">
+    <div clas="row col-sm-8">
 <?php
     if(isset($_POST['submit'])){ //form submit ?
         if(isset($_POST['catID'])){ // trong post nó catID
@@ -80,12 +78,12 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
 ?>
 <form action="" method="post">
     <p><label>Post Title</label><br>
-    <input type="text" name="postTitle" value="<?php if(isset($error)){ echo $_POST['postTitle'];}?>"><br></p>
-    <p><label>Post Description</label>
+    <input type="text" size="153" name="postTitle" value="<?php if(isset($error)){ echo $_POST['postTitle'];}?>"><br></p>
+    <p><br><label>Post Description</label>
     <textarea name="postDesc" rows="10" cols="60"><?php if(isset($error)){ echo $_POST['postDesc'];}?></textarea></p>
-    <p><label>Post Content</label>
+    <p><br><label>Post Content</label>
     <textarea name="postCont" rows="10" cols="60"><?php if(isset($error)){ echo $_POST['postCont'];}?></textarea></p>
-    <p>Categories</p>
+    <h4>Categories</h4>
     <?php
         $stmt_cats = $db->query('SELECT catID,catTitle FROM blog_cats ORDER BY catTitle');
 
@@ -104,5 +102,6 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
     <p><input type="submit" name="submit" value="Add post"></p>
 </form>
 </div>
+</section>
 </body>
 </html>

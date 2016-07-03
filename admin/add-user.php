@@ -36,33 +36,60 @@ if(isset($_POST['submit'])){
     <link rel="stylesheet" href="../style/main.css">
 </head>
 <body>
-<div id="wrapper">
-    <?php include "menu.php"; ?>
-
-<form action="" method="post">
-    <?php
-    if(isset($_GET['action'])){
-        echo '<p>User '.$_GET['action'].'</p>';
-    }
-    ?>
-    <?php
-    if(isset($error)){
-        foreach($error as $zerror){
-            echo '<p>'.$zerror.'</p>';
+<?php include('menu.php');?>
+<section class="container">
+    <div clas="row col-sm-8">
+        <?php
+        if(isset($_GET['action'])){
+            echo '<p>User '.$_GET['action'].'</p>';
         }
-    }
-    ?>
-    <p><label>Username:<br><label>
-                <input type="text" name="username" value="<?php if(isset($error)) echo $_POST['username']; ?>"></p>
-    <p><label>Email:<br><label>
-                <input type="text" name="email" value="<?php if(isset($error)) echo $_POST['email']; ?>"></p>
-    <p><label>Password:<br><label>
-                <input type="password" name="password" value=""></p>
-    <p><label>Re-password:<br><label>
-                <input type="password" name="repassword" value=""></p>
-    <input type="submit" name="submit" value="Add User">
-</form>
-</div>
+        ?>
+        <?php
+        if(isset($error)){
+            foreach($error as $zerror){
+                echo '<p>'.$zerror.'</p>';
+            }
+        }
+        ?>
+        <form action="" method="POST" name="sentMessage" id="contactForm" novalidate>
+            <div class="row control-group">
+                <div class="form-group col-xs-12 floating-label-form-group controls">
+                    <label>Username:</label>
+                    <input type="text" class="form-control" placeholder="Username" name="username" id="username" required data-validation-required-message="Please enter your name.">
+                    <p class="help-block text-danger"></p>
+                </div>
+            </div>
+            <div class="row control-group">
+                <div class="form-group col-xs-12 floating-label-form-group controls">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" placeholder="Email Address" name="email" id="email" required data-validation-required-message="Please enter your email address.">
+                    <p class="help-block text-danger"></p>
+                </div>
+            </div>
+            <div class="row control-group">
+                <div class="form-group col-xs-12 floating-label-form-group controls">
+                    <label>Password</label>
+                    <input type="password" class="form-control" placeholder="Password" name="password" id="password" required data-validation-required-message="Please enter your phone number.">
+                    <p class="help-block text-danger"></p>
+                </div>
+            </div>
+            <div class="row control-group">
+                <div class="form-group col-xs-12 floating-label-form-group controls">
+                    <label>Re-Password</label>
+                    <input type="password" class="form-control" placeholder="Password" name="repassword" id="repassword" required data-validation-required-message="Please enter your phone number.">
+                    <p class="help-block text-danger"></p>
+                </div>
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="form-group col-xs-12">
+                    <input type="submit" name="submit" value="Add User" class="btn btn-default">
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
 </body>
 </html>
 

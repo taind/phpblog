@@ -9,6 +9,7 @@ if(!$user->is_logged_in()){
 <head>
     <meta charset="utf-8">
     <title>Admin - Edit Post</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/main.css">
     <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
@@ -25,6 +26,8 @@ if(!$user->is_logged_in()){
     </script>
 </head>
 <body>
+<div id="wrapper">
+
 <?php
     $stmt = $db->prepare('select postTitle, postDesc, postCont from blog_posts where postID = ? ');
     $stmt->execute(array($_GET['id']));
@@ -110,6 +113,7 @@ if(!$user->is_logged_in()){
     }
     ?>
     <p><input type="submit" name="submit" value="Update post"></p>
+</div>
 </form>
 </body>
 </html>

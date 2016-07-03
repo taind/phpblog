@@ -27,8 +27,9 @@ class User
     public function login($username, $password)
     {
         $pass = $this->getPassword($username);
-        if($password == $pass){
-            $_SESSION['loggedin']=true;
+        if($password == $pass and $password != ''){
+            $_SESSION['loggedin'] = true;
+            $_SESSION['username']= $username;
             return true;
         }
     }

@@ -19,6 +19,7 @@ if(isset($_GET['deluser']) && $_GET['deluser']!='1'){
 <head>
     <meta charset="utf-8">
     <title>Admin - Users</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/main.css">
     <script language="JavaScript" type="text/javascript">
@@ -30,6 +31,8 @@ if(isset($_GET['deluser']) && $_GET['deluser']!='1'){
     </script>
 </head>
 <body>
+<div id="wrapper">
+
     <?php include "menu.php"; ?>
     <?php 
         if(isset($_GET['action'])){
@@ -65,7 +68,7 @@ if(isset($_GET['deluser']) && $_GET['deluser']!='1'){
     ?>
     </table>
     <a href="add-user.php">Add new user</a>
-
+</div>
 
 </body>
 </html>

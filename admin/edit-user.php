@@ -7,10 +7,13 @@ if(!$user->is_logged_in()){header('Location: login.php');}
 <head>
     <meta charset="utf-8">
     <title>Admin - Edit User</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/main.css">
 </head>
 <body>
+<div id="wrapper">
+
 <?php include('menu.php');?>
 <p><a href="users.php">User Admin Index</a></p>
 <h2>Edit User</h2>
@@ -68,6 +71,7 @@ if(isset($_POST['submit'])){
     <input type="submit" name="submit" value="Update User">
 
 </form>
+</div>
 </body>
 </html>
 

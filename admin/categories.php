@@ -41,6 +41,7 @@ if(isset($_POST['editcat'])){ //edit category
 <head>
     <meta charset="utf-8">
     <title>Admin - Categories</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/main.css">
     <script src="../jquery.js"></script>
@@ -83,6 +84,8 @@ if(isset($_POST['editcat'])){ //edit category
     </script>
 </head>
 <body>
+<div id="wrapper">
+
 <?php include "menu.php"; ?>
 <?php
 if(isset($error)){
@@ -103,7 +106,7 @@ if(isset($_GET['action'])){
 $stmt = $db->query('SELECT catID,catTitle from blog_cats order by catID DESC');
 while($row = $stmt->fetch()){
     echo '<tr>';
-    echo '<td><input type="text" name="txtCatName" value="'.$row['catTitle'].'"></td>';
+    echo '<td>'.$row['catTitle'].'</td>';
 ?>
 <td><button class="btnedit" value="<?php echo $row['catTitle']; ?>" id="<?php echo $row['catID']; ?>">Edit</button> |
     <button onclick="delcat('<?php echo $row['catID']; ?>', '<?php echo $row['catTitle']; ?>')">Delete</button></td>
@@ -114,6 +117,6 @@ while($row = $stmt->fetch()){
 </table>
 <button class="btnadd">Add category</button>
 <p class="inner"></p>
-
+</div>
 </body>
 </html>

@@ -24,11 +24,6 @@ if(isset($_POST['submit'])){
         header('Location: users.php?action=added');
         exit;
     }
-    if(isset($error)){
-        foreach($error as $zerror){
-            echo '<p>'.$zerror.'</p>';
-        }
-    }
 }
 ?>
 <!doctype html>
@@ -36,26 +31,38 @@ if(isset($_POST['submit'])){
 <head>
     <meta charset="utf-8">
     <title>Admin - Add User</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/main.css">
 </head>
 <body>
-<?php
-if(isset($_GET['action'])){
-    echo '<h3>User '.$_GET['action'].'</h3>';
-}
-?>
+<div id="wrapper">
+    <?php include "menu.php"; ?>
+
 <form action="" method="post">
-    <p><label>Username<label>
+    <?php
+    if(isset($_GET['action'])){
+        echo '<p>User '.$_GET['action'].'</p>';
+    }
+    ?>
+    <?php
+    if(isset($error)){
+        foreach($error as $zerror){
+            echo '<p>'.$zerror.'</p>';
+        }
+    }
+    ?>
+    <p><label>Username:<br><label>
                 <input type="text" name="username" value="<?php if(isset($error)) echo $_POST['username']; ?>"></p>
-    <p><label>Email<label>
+    <p><label>Email:<br><label>
                 <input type="text" name="email" value="<?php if(isset($error)) echo $_POST['email']; ?>"></p>
-    <p><label>Password<label>
+    <p><label>Password:<br><label>
                 <input type="password" name="password" value=""></p>
-    <p><label>Re-password<label>
+    <p><label>Re-password:<br><label>
                 <input type="password" name="repassword" value=""></p>
     <input type="submit" name="submit" value="Add User">
 </form>
+</div>
 </body>
 </html>
 

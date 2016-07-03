@@ -7,6 +7,7 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
 <head>
     <meta charset="utf-8">
     <title>Admin - Add Post</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/main.css">
     <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
@@ -28,7 +29,7 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
     <?php include('menu.php');?>
     <p><a href="/">Blog Admin Index</a></p>
     <h2>Add Post</h2>
-</div>
+
 <?php
     if(isset($_POST['submit'])){ //form submit ?
         if(isset($_POST['catID'])){ // trong post nó catID
@@ -53,9 +54,9 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
 
         if(!isset($error)){
             try {
-                $stmt = $db->prepare('INSERT INTO blog_posts (postTitle,postSlug,postDesc,postCont,postDate) VALUES (?,?,?,?,?)');
+                $stmt = $db->prepare('INSERT INTO blog_posts (postTitle,postSlug,postDesc,postCont,postDate,postAuthor) VALUES (?,?,?,?,?,?)');
                 $postSlug = slug($postTitle);
-                $stmt->execute(array($postTitle,$postSlug,$postDesc,$postCont, date('Y-m-d H:i:s'))); // add post vào blog_post
+                $stmt->execute(array($postTitle,$postSlug,$postDesc,$postCont, date('Y-m-d H:i:s'), $_SESSION['username'])); // add post vào blog_post
                 $stmt = $db->query('Select max(postID) as mpostID from blog_posts');
                 $row = $stmt->fetch();
                 $postID = $row['mpostID']; // lấy cái postID của thằng mới add vào, nó lớn nhất
@@ -102,5 +103,6 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
     ?>
     <p><input type="submit" name="submit" value="Add post"></p>
 </form>
+</div>
 </body>
 </html>

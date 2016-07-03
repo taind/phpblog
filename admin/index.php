@@ -17,6 +17,7 @@ if(isset($_GET['delpost'])){
 <html>
 <head>
     <title>Admin CP</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/main.css">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -29,13 +30,17 @@ if(isset($_GET['delpost'])){
     </script>
 </head>
 <body>
+<div id="wrapper">
+
 <?php include('menu.php');?>
 <?php
     if(isset($_GET['action'])){
         echo '<h3>Post '.$_GET['action'].'.</h3>';
     }
 ?>
-<table border="1">
+    <a href="add-post.php">Add new post</a>
+
+    <table border="1">
     <tr>
         <th>Title</th>
         <th>Post on</th>
@@ -43,7 +48,10 @@ if(isset($_GET['delpost'])){
     </tr>
     <?php
     try{
-        $stmt = $db->query('select postID, postTitle,postDate from blog_posts ORDER BY postID DESC');
+        $pages = new Paginator('5', 'p');
+        $stmt = $db->query('select postID from blog_posts ORDER BY postID DESC');
+        $pages->set_total($stmt->rowCount());
+        $stmt = $db->query('select postID, postTitle,postDate from blog_posts ORDER BY postID DESC '.$pages->get_limit());
         while($row=$stmt->fetch()){
             echo    '<tr>';
             echo    '<td>'.$row['postTitle'].'</td>';
@@ -56,11 +64,12 @@ if(isset($_GET['delpost'])){
     <?php
             echo '</tr>';
         }
+        echo "</table>";
     }catch(PDOException $e){
         $e->getMessage();
     }
+    echo $pages->page_links();
  ?>
-    <a href="add-post.php">Add new post</a>
-</table>
+</div>
 </body>
 </html>

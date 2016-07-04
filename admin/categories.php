@@ -96,7 +96,7 @@ if(isset($_POST['editcat'])){ //edit category
             echo 'Category '.$_GET['action'];
         }
         ?>
-    <table border="1">
+    <table class="table">
     <tr>
         <th width="50%">Category</th>
         <th width="50%">Action</th>

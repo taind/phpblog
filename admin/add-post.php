@@ -10,7 +10,8 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/main.css">
-    <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+    <script src="../tinymce/tinymce.min.js"></script>
+    <script src="../tinymce/jquery.tinymce.min.js"></script>
     <script>
         tinymce.init({
             selector: "textarea",
@@ -52,9 +53,10 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
 
         if(!isset($error)){
             try {
+                $postCont = str_replace('../images/','images/', $postCont);
                 $stmt = $db->prepare('INSERT INTO blog_posts (postTitle,postSlug,postDesc,postCont,postDate,postAuthor) VALUES (?,?,?,?,?,?)');
                 $postSlug = slug($postTitle);
-                $stmt->execute(array($postTitle,$postSlug,$postDesc,$postCont, date('Y-m-d H:i:s'), $_SESSION['username'])); // add post vào blog_post
+                $stmt->execute(array($postTitle,$postSlug,strip_tags($postDesc),$postCont, date('Y-m-d H:i:s'), $_SESSION['username'])); // add post vào blog_post
                 $stmt = $db->query('Select max(postID) as mpostID from blog_posts');
                 $row = $stmt->fetch();
                 $postID = $row['mpostID']; // lấy cái postID của thằng mới add vào, nó lớn nhất
@@ -78,10 +80,11 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
 ?>
 <form action="" method="post">
     <p><label>Post Title</label><br>
-    <input type="text" size="153" name="postTitle" value="<?php if(isset($error)){ echo $_POST['postTitle'];}?>"><br></p>
+    <input type="text" size="100%" name="postTitle" value="<?php if(isset($error)){ echo $_POST['postTitle'];}?>"><br></p>
     <p><br><label>Post Description</label>
     <textarea name="postDesc" rows="10" cols="60"><?php if(isset($error)){ echo $_POST['postDesc'];}?></textarea></p>
     <p><br><label>Post Content</label>
+    <a href="image_upload.php" target="_blank">Upload image</a>
     <textarea name="postCont" rows="10" cols="60"><?php if(isset($error)){ echo $_POST['postCont'];}?></textarea></p>
     <h4>Categories</h4>
     <?php

@@ -40,7 +40,7 @@ if(isset($_GET['delpost'])){
         ?>
         <a href="add-post.php">Add new post</a>
 
-        <table border="1">
+        <table class="table">
         <tr>
             <th width="33%">Title</th>
             <th width="33%">Post on</th>

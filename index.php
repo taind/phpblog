@@ -85,16 +85,16 @@
                     echo '<div class="post-preview">';
                     echo '<h2 class="post-title"><a href="'.$row['postSlug'].'">'.$row['postTitle'].'</a></h2>'; // title chứa link đến post
                     echo '<a><h3 class="post-subtitle">'.$row['postDesc'].'</h3></a>';
-                    echo '<p class="post-meta">Posted on <a> '.date('jS M Y H:i A', strtotime($row['postDate'])).'</a> in <a>'; // chen category sau date post
+                    echo '<p class="post-meta">Posted on <a> '.date('jS M Y H:i A', strtotime($row['postDate'])).'</a> in <a> <i class="fa fa-tags"></i>'; // chen category sau date post
                             $stmt2 = $db->prepare('Select catTitle,catSlug from blog_cats,blog_post_cats where blog_cats.catID=blog_post_cats.catID and blog_post_cats.postID=?');
                             $stmt2->execute(array($row['postID']));
                             $catrow = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                             $link = array();
                             foreach($catrow as $zcatrow){
-                                $link[] = "<a href='c-".$zcatrow['catSlug']."'>".$zcatrow['catTitle']."</a>";
+                                $link[] = "<a href='c-".$zcatrow['catSlug']."'> ".$zcatrow['catTitle']."</a>";
                             }
                             echo implode(",", $link);
-                    echo "</a> by <a>".$row['postAuthor'];
+                    echo "</a> by <a><i class='fa fa-user'></i> ".$row['postAuthor'];
                     echo "</a></p>";
                     echo '</div>';
                     echo "<hr>";

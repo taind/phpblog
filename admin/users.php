@@ -39,7 +39,7 @@ if(isset($_GET['deluser']) && $_GET['deluser']!='1'){
             echo '<h3>User '.$_GET['action'].'</h3>';
         }
     ?>
-    <table border="1">
+    <table class="table">
         <tr>
             <th width="25%">Member ID</th>
             <th width="25%">Username</th>

@@ -11,8 +11,8 @@ if(!$user->is_logged_in()){
     <title>Admin - Edit Post</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../style/main.css">
-    <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
-    <script>
+    <script src="../tinymce/tinymce.min.js"></script>
+    <script src="../tinymce/jquery.tinymce.min.js"></script>    <script>
         tinymce.init({
             selector: "textarea",
             plugins: [
@@ -55,9 +55,10 @@ if(!$user->is_logged_in()){
                 }
                 if(!isset($error)){
                     try{
+                        $postCont = str_replace('../images/','images/', $postCont);
                         $stmt = $db->prepare('UPDATE blog_posts SET postTitle=?, postSlug=?, postDesc=?, postCont=? where postID=?');
                         $postSlug = slug($postTitle);
-                        $stmt->execute(array($postTitle, $postSlug, $postDesc, $postCont, $_GET['id'])); // update post
+                        $stmt->execute(array($postTitle, $postSlug, strip_tags($postDesc), $postCont, $_GET['id'])); // update post
 
                         $stmt = $db->prepare('DELETE FROM blog_post_cats where postID = ?');
                         $stmt->execute(array($_GET['id'])); // xóa hết các post cat cũ của postID mình chọn
@@ -84,7 +85,7 @@ if(!$user->is_logged_in()){
         <p><br><label>Post Description</label>
             <textarea name="postDesc" rows="10" cols="60"><?php echo $row['postDesc']; ?></textarea></p>
         <p><br><label>Post Content</label>
-            <textarea name="postCont" rows="10" cols="60"><?php echo $row['postCont']; ?></textarea></p>
+            <textarea name="postCont" rows="10" cols="60"><?php $row['postCont'] = str_replace('images/','../images/',$row['postCont']); echo $row['postCont']; ?></textarea></p>
         <?php
         $stmt_cats = $db->query('SELECT catID,catTitle FROM blog_cats ORDER BY catTitle'); // lấy đanh sách category
 

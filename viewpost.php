@@ -93,7 +93,7 @@ if($row['postID'] == ''){
                 <div class="post-heading">
                     <h1><?php echo $row['postTitle']; ?></h1>
                     <h2 class="subheading"><?php echo $row['postDesc']; ?></h2>
-                    <span class="meta">Posted by <a href="#"><?php echo $row['postAuthor']; ?></a> on <?php echo date('jS M Y H:i A', strtotime($row['postDate'])); ?> in
+                    <span class="meta">Posted by <a href="#"><i class="fa fa-user"></i> <?php echo $row['postAuthor']; ?></a> on <?php echo date('jS M Y H:i A', strtotime($row['postDate'])); ?> in <i class="fa fa-tags"></i>
                     <?php
                     $stmt2 = $db->prepare('Select catTitle,catSlug from blog_cats,blog_post_cats where blog_cats.catID=blog_post_cats.catID and blog_post_cats.postID=?');
                     $stmt2->execute(array($row['postID']));

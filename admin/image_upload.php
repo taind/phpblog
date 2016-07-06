@@ -114,7 +114,8 @@ if(!$user->is_logged_in()){header('Location: login.php');}
             echo "<br>Sorry your image was not uploaded";
         }else{
             if(move_uploaded_file($_FILES['fileToUpload']['tmp_name'],$target_file)){
-                echo "<br>Your image has been uploaded in ".$target_file;
+                echo "<br>Your image has been uploaded in <br>";
+                echo "localhost/phpblog/".str_replace('../','',$target_file);
             }else{
                 echo "<br>Error occurs";
             }

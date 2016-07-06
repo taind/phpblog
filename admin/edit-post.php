@@ -55,7 +55,6 @@ if(!$user->is_logged_in()){
                 }
                 if(!isset($error)){
                     try{
-                        $postCont = str_replace('../images/','images/', $postCont);
                         $stmt = $db->prepare('UPDATE blog_posts SET postTitle=?, postSlug=?, postDesc=?, postCont=? where postID=?');
                         $postSlug = slug($postTitle);
                         $stmt->execute(array($postTitle, $postSlug, strip_tags($postDesc), $postCont, $_GET['id'])); // update post
@@ -85,7 +84,7 @@ if(!$user->is_logged_in()){
         <p><br><label>Post Description</label>
             <textarea name="postDesc" rows="10" cols="60"><?php echo $row['postDesc']; ?></textarea></p>
         <p><br><label>Post Content</label>
-            <textarea name="postCont" rows="10" cols="60"><?php $row['postCont'] = str_replace('images/','../images/',$row['postCont']); echo $row['postCont']; ?></textarea></p>
+            <textarea name="postCont" rows="10" cols="60"><?php echo $row['postCont']; ?></textarea></p>
         <?php
         $stmt_cats = $db->query('SELECT catID,catTitle FROM blog_cats ORDER BY catTitle'); // lấy đanh sách category
 

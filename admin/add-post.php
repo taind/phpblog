@@ -53,7 +53,6 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
 
         if(!isset($error)){
             try {
-                $postCont = str_replace('../images/','images/', $postCont);
                 $stmt = $db->prepare('INSERT INTO blog_posts (postTitle,postSlug,postDesc,postCont,postDate,postAuthor) VALUES (?,?,?,?,?,?)');
                 $postSlug = slug($postTitle);
                 $stmt->execute(array($postTitle,$postSlug,strip_tags($postDesc),$postCont, date('Y-m-d H:i:s'), $_SESSION['username'])); // add post vào blog_post

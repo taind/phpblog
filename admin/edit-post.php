@@ -15,6 +15,9 @@ if(!$user->is_logged_in()){
     <script src="../tinymce/jquery.tinymce.min.js"></script>    <script>
         tinymce.init({
             selector: "textarea",
+            relative_urls : false,
+            remove_script_host : false,
+            convert_urls : true,
             plugins: [
                 "advlist autolink lists link image charmap print preview anchor",
                 "searchreplace visualblocks code fullscreen",

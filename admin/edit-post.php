@@ -76,7 +76,9 @@ if(!$user->is_logged_in()){
                 }
                 if(isset($error)){
                     foreach($error as $zerror){
-                        echo '<p>'.$zerror.'</p>';
+                        echo    '<div class="alert alert-danger">
+                                    <strong>'.$zerror.'</strong>
+                                 </div>';
                     }
                 }
             }
@@ -87,6 +89,7 @@ if(!$user->is_logged_in()){
         <p><br><label>Post Description</label>
             <textarea name="postDesc" rows="10" cols="60"><?php echo $row['postDesc']; ?></textarea></p>
         <p><br><label>Post Content</label>
+            <a href="image_upload.php" target="_blank">Upload image</a>
             <textarea name="postCont" rows="10" cols="60"><?php echo $row['postCont']; ?></textarea></p>
         <?php
         $stmt_cats = $db->query('SELECT catID,catTitle FROM blog_cats ORDER BY catTitle'); // lấy đanh sách category

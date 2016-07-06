@@ -35,23 +35,33 @@ if(isset($_GET['delpost'])){
     <div clas="row col-sm-8">
         <?php
             if(isset($_GET['action'])){
-                echo '<h3>Post '.$_GET['action'].'.</h3>';
+                if($_GET['action']== 'added' || $_GET['action']== 'updated'){
+                    echo    '<div class="alert alert-success">
+                                <strong>Post '.$_GET['action'].'</strong>
+                            </div>';
+                }
+                if($_GET['action']== 'deleted'){
+                    echo '  <div class="alert alert-danger">
+                                <strong>Post '.$_GET['action'].'</strong>
+                            </div>';
+                }
             }
         ?>
         <a href="add-post.php">Add new post</a>
 
         <table class="table">
         <tr>
-            <th width="33%">Title</th>
-            <th width="33%">Post on</th>
-            <th width="33%">Action</th>
+            <th width="30%">Title</th>
+            <th width="25%">Author</th>
+            <th width="25%">Post on</th>
+            <th width="20%">Action</th>
         </tr>
         <?php
         try{
             $pages = new Paginator('10', 'p');
             $stmt = $db->query('select postID from blog_posts ORDER BY postID DESC');
             $pages->set_total($stmt->rowCount());
-            $stmt = $db->query('select postID, postTitle,postDate from blog_posts ORDER BY postID DESC '.$pages->get_limit());
+            $stmt = $db->query('select postID, postTitle,postDate,postAuthor from blog_posts ORDER BY postID DESC '.$pages->get_limit());
             while($row=$stmt->fetch()){
                 echo    '<tr>';
                 if(strlen($row['postTitle']) > 70){
@@ -61,6 +71,7 @@ if(isset($_GET['delpost'])){
                     $shortedTitle = $row['postTitle'];
                 }
                 echo    '<td>'.$shortedTitle.'</td>';
+                echo    '<td>'.$row['postAuthor'].'</td>';
                 echo    '<td>'.date('jS M Y H:i A', strtotime($row['postDate'])).'</td>';
         ?>
                         <td>
@@ -74,7 +85,6 @@ if(isset($_GET['delpost'])){
         }catch(PDOException $e){
             $e->getMessage();
         }
-        echo "<div class='span7 center'>";
         echo "<p>".$pages->page_links()."</p>";
         echo "</div>";
         ?>

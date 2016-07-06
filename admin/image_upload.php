@@ -106,7 +106,7 @@ if(!$user->is_logged_in()){header('Location: login.php');}
             $uploadOk = 0;
         }
         //check file type
-        if($imageFileType !== "png" && $imageFileType !== "jpg" && $imageFileType !== "jpeg"){
+        if($imageFileType != "png" && $imageFileType != "jpg" && $imageFileType != "jpeg"){
             echo "<br>Sorry, only JPG JPEG PNG is allowed";
             $uploadOk = 0;
         }
@@ -115,7 +115,11 @@ if(!$user->is_logged_in()){header('Location: login.php');}
         }else{
             if(move_uploaded_file($_FILES['fileToUpload']['tmp_name'],$target_file)){
                 echo "<br>Your image has been uploaded in <br>";
-                echo "localhost/phpblog/".str_replace('../','',$target_file);
+                $links = "http://localhost/phpblog/".str_replace('../','',$target_file);
+                echo $links;
+                $resize = new resize($target_file);
+                $resize->resizeTo();
+                $resize->saveImage($target_file);
             }else{
                 echo "<br>Error occurs";
             }

@@ -120,13 +120,14 @@ if($row['postID'] == ''){
                 echo '<p>'.$row['postCont'].'</p>';
                 echo '</div>';
                 ?>
-            <div class="fb-comments" data-href="http://20namsau.com/phpblog/<?php echo $_GET['id']; ?>" data-width="700" data-numposts="5"></div>
+                <div style="text-align: center;">
+                    <div class="fb-comments" data-href="http://20namsau.com/phpblog/<?php echo $_GET['id']; ?>" data-width="700" data-numposts="5"></div>
+                </div>
             </figure>
             <figure class="col-sm-4">
                 <?php require ("sidebar.php"); ?>
             </figure>
     </section>
-
 </article>
 
 <footer>

@@ -74,7 +74,9 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
             }
             if(isset($error)){
                 foreach ($error as $zerror)
-                    echo '<p>'.$zerror.'</p>';
+                    echo    '<div class="alert alert-danger">
+                                <strong>'.$zerror.'</strong>
+                            </div>';
             }
         }
 

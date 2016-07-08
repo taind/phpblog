@@ -58,9 +58,9 @@ if(!$user->is_logged_in()){
                 }
                 if(!isset($error)){
                     try{
-                        $stmt = $db->prepare('UPDATE blog_posts SET postTitle=?, postSlug=?, postDesc=?, postCont=? where postID=?');
+                        $stmt = $db->prepare('UPDATE blog_posts SET postTitle=?, postSlug=?, postDesc=?, postCont=?, postEdit=? where postID=?');
                         $postSlug = slug($postTitle);
-                        $stmt->execute(array($postTitle, $postSlug, strip_tags($postDesc), $postCont, $_GET['id'])); // update post
+                        $stmt->execute(array($postTitle, $postSlug, strip_tags($postDesc), $postCont,date('Y-m-d H:i:s'),$_GET['id'],)); // update post
 
                         $stmt = $db->prepare('DELETE FROM blog_post_cats where postID = ?');
                         $stmt->execute(array($_GET['id'])); // xóa hết các post cat cũ của postID mình chọn

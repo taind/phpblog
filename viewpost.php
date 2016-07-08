@@ -1,11 +1,18 @@
 <?php
 require ('includes/config.php');
-$stmt = $db->prepare('Select postID,postDesc,postTitle,postDate,postCont,postAuthor from blog_posts where postSlug= ?');
+$stmt = $db->prepare('Select postID,postDesc,postTitle,postDate,postCont,postAuthor,postView from blog_posts where postSlug= ?');
 $stmt->execute(array($_GET['id'])); // get id bên index truyen qua va quang vao statement o tren
 $row=$stmt->fetch();
 if($row['postID'] == ''){
     header('Location: ./');
     exit;
+}
+
+$session_name = "view".$row['postID'];
+$checkview = $_SESSION[$session_name];
+if(empty($checkview)){ // nếu check view rỗng,tức là lần đầu xem trong session,
+    $_SESSION[$session_name]=1; // set 1 tức là đã xem
+    $stmt = $db->query('UPDATE blog_posts SET postView=postView+1 WHERE postID='.$row['postID']); //tăng 1 lượt view
 }
 
 ?>
@@ -113,10 +120,11 @@ if($row['postID'] == ''){
 <article>
     <section class="container">
         <div class="row">
-            <figure class="col-sm-8">
+            <figure class="col-sm-9">
                 <div class="fb-like" data-href="http://20namsau.com/phpblog/<?php echo $_GET['id']; ?>" data-layout="button_count" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
                 <?php
                 echo '<div>';
+                echo 'Lượt xem: '.$row['postView'];
                 echo '<p>'.$row['postCont'].'</p>';
                 echo '</div>';
                 ?>
@@ -124,7 +132,7 @@ if($row['postID'] == ''){
                     <div class="fb-comments" data-href="http://20namsau.com/phpblog/<?php echo $_GET['id']; ?>" data-width="700" data-numposts="5"></div>
                 </div>
             </figure>
-            <figure class="col-sm-4">
+            <figure class="col-sm-3">
                 <?php require ("sidebar.php"); ?>
             </figure>
     </section>

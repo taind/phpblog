@@ -56,9 +56,9 @@ if(!$user->is_logged_in()){ header('Location: login.php'); }
 
             if(!isset($error)){
                 try {
-                    $stmt = $db->prepare('INSERT INTO blog_posts (postTitle,postSlug,postDesc,postCont,postDate,postAuthor) VALUES (?,?,?,?,?,?)');
+                    $stmt = $db->prepare('INSERT INTO blog_posts (postTitle,postSlug,postDesc,postCont,postDate,postEdit,postAuthor) VALUES (?,?,?,?,?,?,?)');
                     $postSlug = slug($postTitle);
-                    $stmt->execute(array($postTitle,$postSlug,strip_tags($postDesc),$postCont, date('Y-m-d H:i:s'), $_SESSION['username'])); // add post vào blog_post
+                    $stmt->execute(array($postTitle,$postSlug,strip_tags($postDesc),$postCont, date('Y-m-d H:i:s'),date('Y-m-d H:i:s'), $_SESSION['username'])); // add post vào blog_post
                     $stmt = $db->query('Select max(postID) as mpostID from blog_posts');
                     $row = $stmt->fetch();
                     $postID = $row['mpostID']; // lấy cái postID của thằng mới add vào, nó lớn nhất

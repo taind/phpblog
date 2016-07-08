@@ -52,16 +52,17 @@ if(isset($_GET['delpost'])){
         <table class="table">
         <tr>
             <th width="30%">Title</th>
-            <th width="25%">Author</th>
-            <th width="25%">Post on</th>
-            <th width="20%">Action</th>
+            <th width="15%">Author</th>
+            <th width="20%">Post on</th>
+            <th width="20%">Last Edited</th>
+            <th width="15%">Action</th>
         </tr>
         <?php
         try{
             $pages = new Paginator('10', 'p');
             $stmt = $db->query('select postID from blog_posts ORDER BY postID DESC');
             $pages->set_total($stmt->rowCount());
-            $stmt = $db->query('select postID, postTitle,postDate,postAuthor from blog_posts ORDER BY postID DESC '.$pages->get_limit());
+            $stmt = $db->query('select postID, postTitle,postDate,postAuthor,postEdit from blog_posts ORDER BY postID DESC '.$pages->get_limit());
             while($row=$stmt->fetch()){
                 echo    '<tr>';
                 if(strlen($row['postTitle']) > 70){
@@ -73,7 +74,9 @@ if(isset($_GET['delpost'])){
                 echo    '<td>'.$shortedTitle.'</td>';
                 echo    '<td>'.$row['postAuthor'].'</td>';
                 echo    '<td>'.date('jS M Y H:i A', strtotime($row['postDate'])).'</td>';
-        ?>
+                echo    '<td>'.date('jS M Y H:i A', strtotime($row['postEdit'])).'</td>';
+
+                ?>
                         <td>
                             <a href="edit-post.php?id=<?php echo $row['postID']; ?>">Edit | </a>
                             <a href="javascript:delpost('<?php echo $row['postID']; ?>', '<?php echo $row['postTitle']; ?>')">Delete</a>

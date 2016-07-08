@@ -17,10 +17,10 @@ $message = strip_tags(htmlspecialchars($_POST['message']));
    
 // tạo email
 $to = 'taind2504@gmail.com';
-$email_subject = "Website Contact From:  $name";
-$email_body = "You have received a new message from your website contact form.\n\n"."Here are the details:\n\nName: $name\n\nEmail: $email_address\n\nPhone: $phone\n\nMessage:\n$message";
-$headers = "From: noreply@20namsau.com\n";
-$headers .= "Reply-To: $email_address";   
+$email_subject = 'Website Contact From:  $name';
+$email_body = 'Here are the details:\n\nName: $name\n\nEmail: $email_address\n\nPhone: $phone\n\nMessage:\n$message';
+$headers = 'From: noreply@20namsau.com\n';
+$headers .= 'Reply-To: $email_address';
 mail($to,$email_subject,$email_body,$headers);
 return true;         
 ?>

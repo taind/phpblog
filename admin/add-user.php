@@ -6,11 +6,26 @@ if(!$user->is_logged_in()){
 if(isset($_POST['submit'])){
     $_POST = array_map('stripslashes', $_POST);
     extract($_POST);
+    $stmt_user = $db->query('select username from blog_members');
+    while($row_user = $stmt_user->fetch()){
+        if($row_user['username'] === $username){
+            $error[] = 'User exist';
+        }
+    }
+    $stmt_email = $db->query('select email from blog_members');
+    while($row_email = $stmt_email->fetch()){
+        if($row_email['email'] === $email){
+            $error[] = 'Email used';
+        }
+    }
     if($username == ''){
         $error[] = 'Please enter USERNAME';
     }
     if($email == ''){
         $error[] = 'Please enter EMAIL';
+    }
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        $error[]= "Please enter correct email format";
     }
     if($password == ''){
         $error[] = 'Please enter PASSWORD';

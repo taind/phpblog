@@ -31,6 +31,7 @@ if(isset($_POST['submit'])){
     if($email == ''){
         $error[] = 'Please enter EMAIL';
     }
+    
     if($password != ''){
         if($password != $repassword){
             $error[] = 'PASSWORD is not same';
@@ -61,14 +62,14 @@ if(isset($_POST['submit'])){
             <div class="row control-group">
                 <div class="form-group col-xs-12 floating-label-form-group controls">
                     <label>Username:</label>
-                    <input type="text" class="form-control" value="<?php echo $row['username']; ?>" name="username" id="username" required data-validation-required-message="Please enter your name.">
+                    <input type="text" class="form-control" value="<?php echo $row['username']; ?>" name="username" id="username" required data-validation-required-message="Please enter your name." readonly>
                     <p class="help-block text-danger"></p>
                 </div>
             </div>
             <div class="row control-group">
                 <div class="form-group col-xs-12 floating-label-form-group controls">
                     <label>Email Address</label>
-                    <input type="email" class="form-control" value="<?php echo $row['email']; ?>" name="email" id="email" required data-validation-required-message="Please enter your email address.">
+                    <input type="email" class="form-control" value="<?php echo $row['email']; ?>" name="email" id="email" required data-validation-required-message="Please enter your email address." readonly>
                     <p class="help-block text-danger"></p>
                 </div>
             </div>

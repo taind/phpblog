@@ -150,6 +150,7 @@ if(empty($checkview)){ // nếu check view rỗng,tức là lần đầu xem tro
                 <?php require ("sidebar.php"); ?>
             </figure>
     </section>
+    <a href="#" class="back-to-top">Back to Top</a>
 </article>
 
 <footer>
@@ -188,7 +189,8 @@ if(empty($checkview)){ // nếu check view rỗng,tức là lần đầu xem tro
         </div>
     </div>
 </footer>
-
+<script src="jquery.js"></script>
+<script src="js/backtotop.js"></script>
 <!-- jQuery -->
 <script src="vendor/jquery/jquery.min.js"></script>
 

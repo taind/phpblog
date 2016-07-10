@@ -38,6 +38,9 @@ class User
             return true;
         }
     }
+    public function getUser(){
+        return $_SESSION['username'];
+    }
     public function logout(){
         session_destroy();
     }

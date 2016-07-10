@@ -18,7 +18,7 @@ if($row_cat['catID']==''){
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Theme CSS -->
-    <link href="css/clean-blog.min.css" rel="stylesheet">
+    <link href="css/clean-blog.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -78,7 +78,7 @@ if($row_cat['catID']==''){
         </div>
     </div>
 </header>
-
+<article class="select-container">
 <section class="container">
     <div class="row">
         <figure class="col-sm-9">
@@ -129,6 +129,7 @@ echo $pages->page_links('c-'.$_GET['id'].'&');
 </figure>
 </div>
 </section>
+</article>
 <footer>
     <div class="container">
         <div class="row">

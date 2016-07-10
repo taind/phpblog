@@ -29,7 +29,7 @@ if(empty($checkview)){ // nếu check view rỗng,tức là lần đầu xem tro
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Theme CSS -->
-    <link href="css/clean-blog.min.css" rel="stylesheet">
+    <link href="css/clean-blog.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -111,13 +111,14 @@ if(empty($checkview)){ // nếu check view rỗng,tức là lần đầu xem tro
                     }
                     echo implode(", ", $link);
                     ?>
+
                     </span>
                 </div>
             </div>
         </div>
     </div>
 </header>
-<article>
+<article class="select-container">
     <section class="container">
         <div class="row">
             <figure class="col-sm-9">
@@ -128,6 +129,19 @@ if(empty($checkview)){ // nếu check view rỗng,tức là lần đầu xem tro
                 echo '<p>'.$row['postCont'].'</p>';
                 echo '</div>';
                 ?>
+                <hr>
+                <span class="meta">
+                    <p>Related post</p>
+                    <?php
+                    $stmt_re = $db->prepare('SELECT postID,postSlug,postTitle FROM blog_posts where postID < ? ORDER BY postID DESC limit 0,3');
+                    $stmt_re->execute(array($row['postID']));
+                    echo '<ul>';
+                    while($row = $stmt_re->fetch()){
+                        echo '<li><a href="'.$row['postSlug'].'">'.$row['postTitle'].'</a></li>';
+                    }
+                    echo '</ul>';
+                    ?>
+                </span>
                 <div style="text-align: center;">
                     <div class="fb-comments" data-href="http://20namsau.com/phpblog/<?php echo $_GET['id']; ?>" data-width="700" data-numposts="5"></div>
                 </div>

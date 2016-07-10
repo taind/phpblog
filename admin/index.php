@@ -62,26 +62,32 @@ if(isset($_GET['delpost'])){
             $pages = new Paginator('10', 'p');
             $stmt = $db->query('select postID from blog_posts ORDER BY postID DESC');
             $pages->set_total($stmt->rowCount());
-            $stmt = $db->query('select postID, postTitle,postDate,postAuthor,postEdit from blog_posts ORDER BY postID DESC '.$pages->get_limit());
+            $stmt = $db->query('select postID, postSlug, postTitle,postDate,postAuthor,postEdit from blog_posts ORDER BY postID DESC '.$pages->get_limit());
             while($row=$stmt->fetch()){
                 echo    '<tr>';
-                if(strlen($row['postTitle']) > 70){
-                    $shortedTitle = substr($row['postTitle'],0,70);
+                if(strlen($row['postTitle']) > 50){
+                    $shortedTitle = substr($row['postTitle'],0,50);
                     $shortedTitle .= "...";
                 } else {
                     $shortedTitle = $row['postTitle'];
                 }
-                echo    '<td>'.$shortedTitle.'</td>';
+                echo    '<td><a href="../'.$row['postSlug'].'" target="_blank" >'.$shortedTitle.'</td>';
                 echo    '<td>'.$row['postAuthor'].'</td>';
                 echo    '<td>'.date('jS M Y H:i A', strtotime($row['postDate'])).'</td>';
                 echo    '<td>'.date('jS M Y H:i A', strtotime($row['postEdit'])).'</td>';
+                echo    '<td>';
+                if($_SESSION['username']!= 'admin'){
+                    if($_SESSION['username'] == $row['postAuthor']){
+                        echo "<a href='edit-post.php?id=".$row['postID']."'>Edit | </a>";
+                        echo "<a href='javascript:delpost('".$row['postID']."','".$row['postTitle']."')'>Delete</a>";
+                    }
+                }else{
+                    echo "<a href='edit-post.php?id=".$row['postID']."'>Edit | </a>";
+                    echo "<a href='javascript:delpost('".$row['postID']."','".$row['postTitle']."')'>Delete</a>";
+                }
 
-                ?>
-                        <td>
-                            <a href="edit-post.php?id=<?php echo $row['postID']; ?>">Edit | </a>
-                            <a href="javascript:delpost('<?php echo $row['postID']; ?>', '<?php echo $row['postTitle']; ?>')">Delete</a>
-                        </td>
-        <?php
+                echo    '</td>';
+
                 echo '</tr>';
             }
             echo "</table>";

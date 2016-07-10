@@ -69,6 +69,7 @@ if( $user->is_logged_in() ){ header('Location: index.php'); }
                             <input type="submit" name="submit" value="Login" class="btn btn-default">
                         </div>
                     </div>
+                    <a href="forgot_password.php" target="_blank">Forgot your password ?</a>
                 </form>
     </figure>
 </div>

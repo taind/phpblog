@@ -21,12 +21,31 @@ if(isset($_GET['delpost'])){
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/main.css">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="../jquery.js"></script>
     <script language="JavaScript" type="text/javascript">
         function delpost(postID,postTitle){
             if(confirm('Bạn có muốn xóa post "'+postTitle+'" không?')){
                 window.location.href='index.php?delpost='+postID;
             }
         }
+    </script>
+    <script>
+        $(document).ready(function () {
+           $("#btnsearch").click(function () {
+               $("#search_inner").html(''); // clear chỗ inner
+               var keyword = $("#txtsearch").val();
+               $.post("search.php",
+                   {
+                       keyword:keyword
+                   },
+                   function (data,status) {
+                       if(status=="success"){
+                           $("#search_inner").html(data);
+                       }
+                   }
+               );
+           });
+        });
     </script>
 </head>
 <body>
@@ -113,6 +132,19 @@ if(isset($_GET['delpost'])){
             echo "</div>";
             ?>
     </div>
+    <div class="row control-group">
+        <div class="form-group col-xs-3 floating-label-form-group controls">
+            <label>Search post</label>
+            <input type="text" class="form-control" name="txtsearch" id="txtsearch">
+            <p class="help-block text-danger"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <button id="btnsearch" class="btn btn-default">Search</button>
+        </div>
+    </div>
+    <div id="search_inner"></div>
 </section>
 </body>
 </html>

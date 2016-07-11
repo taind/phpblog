@@ -12,8 +12,16 @@ if(isset($_GET['delcat'])){ //delte category
 if(isset($_POST['addcat'])){ // add category
     $_POST = array_map('stripslashes',$_POST);
     extract($_POST);
+    $catSlug_new = slug($newcatname);
+    $stmt_cat = $db->query('select catSlug from blog_cats');
+    while($row_cat = $stmt_cat->fetch()){
+        if($catSlug_new === $row_cat['catSlug'] ){
+            $error = 'error in new category name(check duplicate)';
+            break;
+        }
+    }
     if($newcatname == ''){
-        $error= 'error in new category name';
+        $error = 'error in new category name';
     }
     if(!isset($error)){
         $catSlug = slug($newcatname);
@@ -23,17 +31,27 @@ if(isset($_POST['addcat'])){ // add category
         exit;
     }
 }
-if(isset($_POST['editcat'])){ //edit category
-    $_POST = array_map('stripslashes',$_POST);
+if(isset($_POST['editcat'])) { //edit category
+    $_POST = array_map('stripslashes', $_POST);
     extract($_POST);
-    if($newcatname == ''){
-        $error= 'error in new category name';
+    $catSlug_new = slug($newcatname);
+    $stmt_cat = $db->query('select catSlug from blog_cats');
+    while($row_cat = $stmt_cat->fetch()){
+        if($catSlug_new === $row_cat['catSlug'] ){
+            $error = 'error in new category name(check duplicate)';
+            break;
+        }
     }
-    $catSlug = slug($newcatname);
-    $stmt4 = $db->prepare('UPDATE blog_cats SET catTitle=?,catSlug=? WHERE catID= ?');
-    $stmt4->execute(array($newcatname,$catSlug,$catID));
-    header('Location: categories.php?action=updated');
-    exit;
+    if ($newcatname == '') {
+        $error = 'error in new category name';
+    }
+    if (!isset($error)) {
+        $catSlug = slug($newcatname);
+        $stmt4 = $db->prepare('UPDATE blog_cats SET catTitle=?,catSlug=? WHERE catID= ?');
+        $stmt4->execute(array($newcatname, $catSlug, $catID));
+        header('Location: categories.php?action=updated');
+        exit;
+    }
 }
 ?>
 <!doctype html>
@@ -60,6 +78,7 @@ if(isset($_POST['editcat'])){ //edit category
                        "<input type='text' name='newcatname'>" +
                        "<input type='submit' name='addcat' value='Add cat'>" +
                        "</form>";
+                $(".error").html('');
                 $("p").html(data);
                 $(".btnadd").hide();
            })
@@ -78,6 +97,8 @@ if(isset($_POST['editcat'])){ //edit category
                     "<input type=hidden name='catID' value='"+value3+"'>" +
                     "<input type='submit' name='editcat' value='Update cat'>" +
                     "</form>";
+                $(".error").html('');
+                $(".inner").html('');
                 $("p").html(data);
                 $(".btnadd").hide();
             })
@@ -90,10 +111,7 @@ if(isset($_POST['editcat'])){ //edit category
         <?php include "menu.php"; ?>
         <?php
         if(isset($error)){
-            echo $error;
-        }
-        if(isset($_GET['action'])){
-            echo 'Category '.$_GET['action'];
+            echo "<div class='error'>".$error."</div>";
         }
         ?>
     <table class="table">
@@ -107,14 +125,23 @@ if(isset($_POST['editcat'])){ //edit category
         echo '<tr>';
         echo '<td>'.$row['catTitle'].'</td>';
     ?>
-    <td><button class="btnedit" value="<?php echo $row['catTitle']; ?>" id="<?php echo $row['catID']; ?>">Edit</button> |
+    <td><button class="btnedit" value="<?php echo $row['catTitle']; ?>" id="<?php echo $row['catID']; ?>">Edit</button>
+    <?php
+        if($_SESSION['username'] == 'admin'){
+     ?>
         <button onclick="delcat('<?php echo $row['catID']; ?>', '<?php echo $row['catTitle']; ?>')">Delete</button></td>
     <?php
+        }
         echo '</tr>';
     }
     ?>
     </table>
     <button class="btnadd">Add category</button>
+    <?php
+        if(isset($_GET['action'])){
+            echo 'Category '.$_GET['action'];
+        }
+    ?>
     <p class="inner"></p>
     </div>
 </section>

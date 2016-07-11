@@ -31,23 +31,25 @@ if(isset($_POST['submit'])){
     if($email == ''){
         $error[] = 'Please enter EMAIL';
     }
-    
-    if($password != ''){
-        if($password != $repassword){
+
+    if($newpassword != ''){
+        if($newpassword != $repassword){
             $error[] = 'PASSWORD is not same';
         }
+    }else{
+        $error[] = 'Please enter your new password';
     }
-    if( $currentpass == ''){
+    if( $cur_password == ''){
         $error[] = 'User current password wrong';
     } else {
-        if($currentpass != $row['password']){
+        if($cur_password != $row['password']){
             $error[] = 'User current password wrong';
         }
     }
 
     if(!isset($error)){
-        $stmt = $db->prepare('UPDATE blog_members SET username=?,email=?,password=? where memberID=?');
-        $stmt->execute(array($username,$email,$password,$_GET['id']));
+        $stmt = $db->prepare('UPDATE blog_members SET password=? where memberID=?');
+        $stmt->execute(array($newpassword,$_GET['id']));
         header('Location: users.php?action=updated');
         exit;
     }
@@ -69,21 +71,28 @@ if(isset($_POST['submit'])){
             <div class="row control-group">
                 <div class="form-group col-xs-12 floating-label-form-group controls">
                     <label>Email Address</label>
-                    <input type="email" class="form-control" value="<?php echo $row['email']; ?>" name="email" id="email" required data-validation-required-message="Please enter your email address." readonly>
+                    <input type="email" class="form-control" value="<?php echo $row['email']; ?>" name="email" id="email" readonly>
                     <p class="help-block text-danger"></p>
                 </div>
             </div>
             <div class="row control-group">
                 <div class="form-group col-xs-12 floating-label-form-group controls">
-                    <label>Password</label>
-                    <input type="password" class="form-control" value="" name="password" id="password" required data-validation-required-message="Please enter your phone number.">
+                    <label>Current Password</label>
+                    <input type="password" class="form-control" value="" name="cur_password" id="cur_password">
+                    <p class="help-block text-danger"></p>
+                </div>
+            </div>
+            <div class="row control-group">
+                <div class="form-group col-xs-12 floating-label-form-group controls">
+                    <label>New Password</label>
+                    <input type="password" class="form-control" value="" name="newpassword" id="newpassword" >
                     <p class="help-block text-danger"></p>
                 </div>
             </div>
             <div class="row control-group">
                 <div class="form-group col-xs-12 floating-label-form-group controls">
                     <label>Re-Password</label>
-                    <input type="password" class="form-control" placeholder="Password" name="repassword" id="repassword" required data-validation-required-message="Please enter your phone number.">
+                    <input type="password" class="form-control" name="repassword" id="repassword">
                     <p class="help-block text-danger"></p>
                 </div>
             </div>

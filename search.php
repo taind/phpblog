@@ -1,13 +1,24 @@
-<?php require('includes/config.php'); ?>
-<html lang='vi_VN'>
+<?php
+require ("includes/config.php");
+$key = $_GET['search'];
+$arrayKey = explode(' ',$key);
+$searchKey = array();
+foreach($arrayKey as $zarrayKey){ // duyệt mảng key
+    $zarrayKey = trim($zarrayKey); //bỏ space
+    if(!empty($zarrayKey)){ // nếu key ko rỗng
+        $searchKey[] = "postSlug like \"%$zarrayKey%\"";
+    }
+}
+?>
+
+<html>
 <head>
     <meta charset="utf-8">
+    <title>Blog - Search</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Vizion Blog</title>
-    <link rel="icon" href="img/favicon.png" type="image/png">
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Theme CSS -->
@@ -24,7 +35,6 @@
     <![endif]-->
 </head>
 <body>
-<!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -57,7 +67,6 @@
                 <li>
                     <a href="contact.html">Contact</a>
                 </li>
-
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -86,37 +95,32 @@
     <section class="container">
         <div class="row">
             <figure class="col-sm-9">
-            <?php
-            try {
-                $pages = new Paginator('5', 'p'); // biến p, 5 post 1 trang
-                $stmt = $db->query('Select postID from blog_posts'); // lấy tất cả postID
-                $pages->set_total($stmt->rowCount()); // lấy tổng số post
-                $stmt = $db->query('SELECT postID, postTitle,postSlug, postDesc, postDate, postAuthor FROM blog_posts ORDER BY postID DESC '.$pages->get_limit());
-                while($row = $stmt->fetch()){
-
-                    echo '<div class="post-preview">';
-                    echo '<h2 class="post-title"><a href="'.$row['postSlug'].'">'.$row['postTitle'].'</a></h2>'; // title chứa link đến post
-                    echo '<a><h3 class="post-subtitle">'.$row['postDesc'].'</h3></a>';
-                    echo '<p class="post-meta">Posted on <a> '.date('jS M Y H:i A', strtotime($row['postDate'])).'</a> in <a> <i class="fa fa-tags"></i>'; // chen category sau date post
-                            $stmt2 = $db->prepare('Select catTitle,catSlug from blog_cats,blog_post_cats where blog_cats.catID=blog_post_cats.catID and blog_post_cats.postID=?');
-                            $stmt2->execute(array($row['postID']));
-                            $catrow = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                            $link = array();
-                            foreach($catrow as $zcatrow){
-                                $link[] = "<a href='c-".$zcatrow['catSlug']."'> ".$zcatrow['catTitle']."</a>";
-                            }
-                            echo implode(",", $link);
-                    echo "</a> by <a><i class='fa fa-user'></i> ".$row['postAuthor'];
-                    echo "</a></p>";
-                    echo '</div>';
-                    echo "<hr>";
+                <?php
+                try{
+                    echo "<p>Key word: \" ".$_GET['search']." \"</p>";
+                    $stmt = $db->query('SELECT postID, postTitle,postSlug, postDesc, postDate, postAuthor FROM blog_posts where '.implode(' OR ',$searchKey));
+                    while($row = $stmt->fetch()){
+                        echo '<div class="post-preview">';
+                        echo '<h2 class="post-title"><a href="'.$row['postSlug'].'">'.$row['postTitle'].'</a></h2>'; // title chứa link đến post
+                        echo '<a><h3 class="post-subtitle">'.$row['postDesc'].'</h3></a>';
+                        echo '<p class="post-meta">Posted on <a> '.date('jS M Y H:i A', strtotime($row['postDate'])).'</a> in <a> <i class="fa fa-tags"></i>'; // chen category sau date post
+                        $stmt2 = $db->prepare('Select catTitle,catSlug from blog_cats,blog_post_cats where blog_cats.catID=blog_post_cats.catID and blog_post_cats.postID=?');
+                        $stmt2->execute(array($row['postID']));
+                        $catrow = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                        $link = array();
+                        foreach($catrow as $zcatrow){
+                            $link[] = "<a href='c-".$zcatrow['catSlug']."'> ".$zcatrow['catTitle']."</a>";
+                        }
+                        echo implode(",", $link);
+                        echo "</a> by <a><i class='fa fa-user'></i> ".$row['postAuthor'];
+                        echo "</a></p>";
+                        echo '</div>';
+                        echo "<hr>";
+                    }
+                }catch(PDOException $e){
+                    $e->getMessage();
                 }
-                echo $pages->page_links();
-
-            } catch(PDOException $e) {
-                echo $e->getMessage();
-            }
-            ?>
+                ?>
             </figure>
             <figure class="col-sm-3">
                 <?php require ("sidebar.php"); ?>
@@ -125,54 +129,54 @@
     </section>
 </article>
 <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <ul class="list-inline text-center">
-                        <li>
-                            <a href="#">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="#">
                                 <span class="fa-stack fa-lg">
                                     <i class="fa fa-circle fa-stack-2x"></i>
                                     <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
                                 </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
                                 <span class="fa-stack fa-lg">
                                     <i class="fa fa-circle fa-stack-2x"></i>
                                     <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
                                 </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
                                 <span class="fa-stack fa-lg">
                                     <i class="fa fa-circle fa-stack-2x"></i>
                                     <i class="fa fa-github fa-stack-1x fa-inverse"></i>
                                 </span>
-                            </a>
-                        </li>
-                    </ul>
-                    <p class="copyright text-muted">Copyright &copy; Team Vizion</p>
-                    <p class="text-center"><?php include "includes/hitcounter.php"; ?></p>
-                </div>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Team Vizion</p>
+                <p class="text-center"><?php include "includes/hitcounter.php"; ?></p>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <!-- jQuery -->
-    <script src="vendor/jquery/jquery.min.js"></script>
+<!-- jQuery -->
+<script src="vendor/jquery/jquery.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Contact Form JavaScript -->
-    <script src="js/jqBootstrapValidation.js"></script>
-    <script src="js/contact_me.js"></script>
+<!-- Contact Form JavaScript -->
+<script src="js/jqBootstrapValidation.js"></script>
+<script src="js/contact_me.js"></script>
 
-    <!-- Theme JavaScript -->
-    <script src="js/clean-blog.min.js"></script>
+<!-- Theme JavaScript -->
+<script src="js/clean-blog.min.js"></script>
 
 </body>
 </html>

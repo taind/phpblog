@@ -82,12 +82,15 @@ if(isset($_GET['delpost'])){
                     echo    '<td>';
                     if($_SESSION['username']!= 'admin'){
                         if($_SESSION['username'] == $row['postAuthor']){
-                            echo "<a href='edit-post.php?id=".$row['postID']."'>Edit | </a>";
-                            echo "<a href='javascript:delpost('".$row['postID']."','".$row['postTitle']."')'>Delete</a>";
-                        }
+                            ?>
+                            <a href='edit-post.php?id=<?php echo $row['postID']; ?>' > Edit | </a>
+                            <a href='javascript:delpost("<?php echo $row['postID']; ?>","<?php echo $row['postTitle']; ?>")'>Delete</a>
+                    <?php    }
                     }else{
-                        echo "<a href='edit-post.php?id=".$row['postID']."'>Edit | </a>";
-                        echo "<a href='javascript:delpost('".$row['postID']."','".$row['postTitle']."')'>Delete</a>";
+                        ?>
+                        <a href='edit-post.php?id=<?php echo $row['postID']; ?>' > Edit | </a>
+                        <a href='javascript:delpost("<?php echo $row['postID']; ?>","<?php echo $row['postTitle']; ?>")'>Delete</a>
+                    <?php
                     }
 
                     echo    '</td>';

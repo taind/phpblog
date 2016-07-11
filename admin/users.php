@@ -54,12 +54,21 @@ if(isset($_GET['deluser']) && $_GET['deluser']!='1'){
             echo '<td>' .$row['memberID'].'</td>';
             echo '<td>' .$row['username'].'</td>';
             echo '<td>' .$row['email'].'</td>';
-    ?>
+            echo "<td>";
+            if($_SESSION['username'] != 'admin'){
+                if($row['username']==$_SESSION['username']){
 
-            <td><a href="edit-user.php?id=<?php echo $row['memberID']; ?>">Edit |</a>
-                <?php if($row['memberID']!=1){?>
-                <a href="javascript:deluser('<?php echo $row['memberID']; ?>','<?php echo $row['username']; ?>')">Delete</a></td>
-    <?php }
+    ?>
+            <a href="edit-user.php?id=<?php echo $row['memberID']; ?>">Edit </a>
+    <?php
+                }
+            }else{
+    ?>
+             <a href="edit-user.php?id=<?php echo $row['memberID']; ?>">Edit</a>
+             <a href="javascript:deluser('<?php echo $row['memberID']; ?>','<?php echo $row['username']; ?>')"> | Delete</a>
+    <?php
+            }
+            echo "</td>";
         echo '</tr>';
         }
     } catch(PDOException $e){

@@ -47,6 +47,16 @@ if(!$user->is_logged_in()){
                 $postTitle = $_POST['postTitle'];
                 $postCont = $_POST['postCont'];
                 $postDesc = $_POST['postDesc'];
+                //check post title
+                $postslug_new = slug($postTitle);
+                $stmt_postSlug = $db->query('select postSlug from blog_posts');
+                while($row_slug = $stmt_postSlug->fetch()){
+                    if($postslug_new == $row_slug['postSlug']){
+                        $error[] = 'Post Title duplicated !';
+                        break;
+                    }
+                }
+                //check content
                 if($postTitle == ''){
                     $error[] = 'Please enter title!';
                 }

@@ -49,11 +49,13 @@ if(!$user->is_logged_in()){
                 $postDesc = $_POST['postDesc'];
                 //check post title
                 $postslug_new = slug($postTitle);
-                $stmt_postSlug = $db->query('select postSlug from blog_posts');
+                $stmt_postSlug = $db->query('select postSlug,postID from blog_posts');
                 while($row_slug = $stmt_postSlug->fetch()){
-                    if($postslug_new == $row_slug['postSlug']){
-                        $error[] = 'Post Title duplicated !';
-                        break;
+                    if($postslug_new == $row_slug['postSlug'] &&  $row_slug['postID'] != $_GET['id']){
+                        $error[] = 'Post Title duplicated !'; // nếu title trùng nhau và khác postID
+                        echo $row_slug['postID'];
+                        echo $_GET['id'];
+                        break; // tức là trường hợp trùng tên trùng post ID thì không sao do nó chính là nó
                     }
                 }
                 //check content
